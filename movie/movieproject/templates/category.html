@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{%  load static  %}
+{% block metadescription %}
+    {% if category %}
+        {{ category.description|truncatewords:155}}
+    {% else %}
+        Movie Website and Recommendation Platform
+    {% endif %}
+{% endblock %}
+{% block title %}
+    {% if category %}
+        {{ category.name }}-MovieForMe
+    {% else %}
+        Movie Website and Recommendation Platform
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+{% if category %}
+     <div >
+         <div class="row my_row_class">
+             <div class="mx_auto">
+                  <p><a href="{% url 'movieapp:allProCat' %}">Our Movie Collection</a> </p>
+             </div>
+
+         </div>
+     </div>
+   {% endif %}
+<div class="mx_auto">
+    {% if category %}
+    <img  class="my_image"  src="{{category.image.url}}" alt="{{category.name}}">
+</div>
+<br>
+
+
+
+                <div class="p-5 ">
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <div class="text-center mx-auto" style="max-width: 700px;">
+                                <h1 class="text-primary">{{category.name}}</h1>
+<!--                                <p class="mb-4">{{category.description}}</p>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+   {% else %}
+<!-- Hero Start -->
+        <div class="container-fluid py-5 mb-5 hero-header">
+            <div class="container py-5">
+                <div class="row g-5 align-items-center">
+                    <div class="col-md-12 col-lg-7">
+                        <h4 class="mb-3 text-secondary">The Search is Over</h4>
+                        <h1 class="mb-5 display-3 text-primary">The Smart Way To Pick A Movie</h1>
+                        <div class="position-relative mx-auto">
+                            <input class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="number" placeholder="Search">
+                            <button type="submit" class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100" style="top: 0; right: 25%;">Submit Now</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-5">
+                        <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
+                            <div class="carousel-inner" role="listbox">
+                                <div class="carousel-item active rounded">
+                                    <img src="{% static 'img/hero-img-1.png' %}" class="img-fluid w-100 h-100 bg-secondary rounded" alt="First slide">
+                                    <a href="#" class="btn px-4 py-2 text-white rounded">Top Box Office</a>
+                                </div>
+                                <div class="carousel-item rounded">
+                                    <img src="{% static 'img/hero-img-2.png' %}" class="img-fluid w-100 h-100 rounded" alt="Second slide">
+                                    <a href="#" class="btn px-4 py-2 text-white rounded">New Releases</a>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselId" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Hero End -->
+ {% endif %}
+        <div class="container-fluid fruite py-5">
+            <div class="container py-5">
+                <div class="tab-class text-center">
+                    <div class="row g-4">
+                        <div class="col-lg-4 text-start">
+                            <h1>Coming Soon </h1>
+                        </div>
+                        <div class="col-lg-8 text-end">
+                            <ul class="nav nav-pills d-inline-flex text-center mb-5">
+
+                                <li class="nav-item">
+                                    <a class="d-flex m-2 py-2 " data-bs-toggle="pill" href="#tab-5">
+                                        <span class="text-dark" style="width: 130px;"> </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        {% if user.is_authenticated %}
+                        <div id="tab-1" class="tab-pane fade show p-0 active">
+                            <div class="row g-4">
+                                <div class="col-lg-12">
+                                    <div class="row g-4">
+                                         {% for movie in movies.object_list %}
+                                        <div class="col-md-6 col-lg-4 col-xl-3">
+                                            <div class="rounded position-relative fruite-item">
+                                                <div class="fruite-img">
+                                                    <a href="{{movie.get_url}}">  <img src="{{movie.poster.url}}" class="img-fluid w-100 rounded-top" alt=""></a>
+                                                </div>
+                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">{{movie.category}}</div>
+                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                    <h4>{{movie.name}}</h4>
+                                                       <p>{{movie.release_date}}</p>
+<!--                                                    <p>{{movie.description|truncatewords:10}}</p>-->
+                                                    <div class=" justify-content-between flex-lg-wrap">
+                                                        <p class="text-dark fs-5 fw-bold mb-0"></p>
+                                                       <a href="{{movie.get_url}}" class="btn border border-secondary rounded-pill px-3 text-primary">Movie Details</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+
+                         <div id="tab-1" class="tab-pane fade show p-0 active">
+                            <div class="row g-4">
+                                <div class="col-lg-12">
+                                    <div class="row g-4">
+                                         {% for movie in movies.object_list %}
+                                        <div class="col-md-6 col-lg-4 col-xl-3">
+                                            <div class="rounded position-relative fruite-item">
+                                                <div class="fruite-img">
+                                                    <a href="">  <img src="{{movie.poster.url}}" class="img-fluid w-100 rounded-top" alt=""></a>
+                                                </div>
+                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">{{movie.category}}</div>
+                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                    <h4>{{movie.name}}</h4>
+<!--                                                    <p>{{movie.description|truncatewords:10}}</p>-->
+                                                    <div class=" justify-content-between flex-lg-wrap">
+                                                        <p class="text-dark fs-5 fw-bold mb-0"></p>
+                                                       <a href="{% url 'credientials:register' %}" class="btn border border-secondary rounded-pill px-3 text-primary">Movie Details</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+ <div class="mx-auto">
+        {% if movies.paginator.num_pages > 1 %}
+
+        <hr>
+        <div class="text-center">
+            {% for pg in movies.paginator.page_range %}
+            <a href="?page={{pg}}" class="btn btn-light btn-sm {% if movies.number == pg %} active {% endif %}">{{pg}}</a>
+            {% endfor %}
+        </div>
+     {% endif %}
+    </div>
+{% endblock %}

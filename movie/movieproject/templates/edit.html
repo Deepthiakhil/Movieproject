@@ -1,0 +1,53 @@
+ {% extends 'base.html' %}
+{%  load static  %}
+{% block metadescription %}
+    {% if category %}
+        {{ category.description|truncatewords:155}}
+    {% else %}
+        Movie Website and Recommendation Platform
+    {% endif %}
+{% endblock %}
+{% block title %}
+    {% if category %}
+        {{ category.name }}-MovieForMe
+    {% else %}
+        Movie Website and Recommendation Platform
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+
+
+        <div class="container-fluid py-5 mb-5 hero-header">
+            <div class="container py-5">
+                <div class="row g-5 align-items-center">
+                    <div class="col-md-12 col-lg-12">
+
+                        <h1 class="mb-5 display-3 text-primary text-center">Profile</h1>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+   <section class="vh-100" style="background-color: #f4f5f7;">
+          <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+              <div class="col col-lg-8 mb-4 mb-lg-0">
+                <div class="form-group">
+                  <form method="POST" >
+                    {% csrf_token %}
+                     {{form.as_p}}
+<!--                        <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" style="z-index: 1;">Submit </button>-->
+                             <input type="submit" class="btn btn-primary">
+
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+{% endblock %}

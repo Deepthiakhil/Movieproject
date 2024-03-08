@@ -1,0 +1,48 @@
+
+{% extends 'base.html' %}
+{% load static  %}
+
+{% block metadescription %}
+
+        {{product.description|truncatewords:155}}
+
+        Welcome to GMart store where you can buys different items....
+
+{% endblock %}
+
+{% block title %}
+    {% if category %}
+        {{ product.name}}-GMart store}}
+
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+       <div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Movie</h1>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="">Home</a></li>
+            </ol>
+        </div>
+
+
+<!--        <section class="vh-100" style="background-color: #f4f5f7;margin-bottom:20px;">-->
+          <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+              <div class="col col-lg-8 mb-4 mb-lg-0 ">
+                <div class="form-group" >
+                  <form method="post" enctype="multipart/form-data" action="">
+                    {% csrf_token %}
+                     {{form.as_p}}
+                      <input type="submit" class="btn btn-primary">
+
+
+                  </form>
+                </div>
+
+              </div>
+            </div>
+          </div>
+<!--        </section>-->
+{% endblock %}

@@ -1,0 +1,102 @@
+
+  {% extends 'base.html' %}
+{%  load static  %}
+
+{% block metadescription %}
+
+        {{product.description|truncatewords:155}}
+
+        Welcome to GMart store where you can buys different items....
+
+{% endblock %}
+
+{% block title %}
+    {% if category %}
+        {{ product.name}}-GMart store}}
+
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+ <!-- Single Page Header start -->
+        <div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Movie</h1>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'movieapp:allProCat' %}">Home</a></li>
+<!--                <li class="breadcrumb-item"><a href="#">Pages</a></li>-->
+<!--                <li class="breadcrumb-item active text-white">Contact</li>-->
+            </ol>
+        </div>
+
+
+   <!-- Contact Start -->
+        <div class="container-fluid contact py-5">
+            <div class="container py-5">
+                <div class="p-5 bg-light rounded">
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <div class="text-center mx-auto" style="max-width: 700px;">
+                                <h1 class="text-primary">Add Movie</h1>
+<!--                                <p class="mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a href="https://htmlcodex.com/contact-form">Download Now</a>.</p>-->
+                            </div>
+                        </div>
+
+                        <div class="col-lg-8 offset-lg-2">
+                         {% if user.is_authenticated %}
+                            <form action="" method="post" enctype="multipart/form-data" >
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label>Movie Name</label>
+                                    <input type="hidden" name="move_id" class="w-100 form-control border-0 py-3 mb-4"  placeholder="" value="{{user.id}}">
+                                    <input type="text" name="move_name" class="w-100 form-control border-0 py-3 mb-4"  placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label>Poster</label>
+                                    <input type="file" name="poster" class="w-100 form-control border-0 py-3 mb-4"  placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea class="form-control" name="description" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Release Date</label>
+                                     <input type="date" name="release_date" class="w-100 form-control border-0 py-3 mb-4" placeholder="">
+                                </div>
+                                 <div class="form-group">
+                                    <label>Actors Name</label>
+                                    <textarea class="form-control" name="actors" rows="3"></textarea>
+                                </div>
+
+                               <div class="form-group">
+                                <label>Category</label>
+
+                                <select class="w-100 form-control border-0 py-3 mb-4" id="cat" name="mcategory" >
+                                    {% for i in cat %}
+                                  <option   class="w-100 form-control border-0 py-3 mb-4" value="{{i.id}}">{{i.name}}</option>
+                                     {% endfor %}
+
+                                </select>
+
+                               </div>
+
+                                <div class="form-group">
+                                    <label>Youtube Trailer Link</label>
+                                     <input type="text" name="youtube_link" class="w-100 form-control border-0 py-3 mb-4" placeholder="">
+                                </div>
+
+                                <button class="w-100 btn form-control border-secondary py-3 bg-white text-primary " type="submit"> Submit</button>
+
+                            </form>
+                           {% endif %}
+
+                            {% for msg in messages %}
+                            <h2>{{msg}}</h2>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Contact End -->
+{% endblock %}

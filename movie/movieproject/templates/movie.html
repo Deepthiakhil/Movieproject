@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{%  load static  %}
+
+{% block metadescription %}
+
+        {{product.description|truncatewords:155}}
+
+        Welcome to GMart store where you can buys different items....
+
+{% endblock %}
+
+{% block title %}
+    {% if category %}
+        {{ product.name}}-GMart store}}
+
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+       <div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6">Movie</h1>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'movieapp:allProCat' %}">Home</a></li>
+            </ol>
+        </div>
+
+
+
+
+        <div class="container-fluid py-5 mt-5">
+            <div class="container py-5">
+                <div class="row g-4 mb-5">
+                    <div class="col-lg-12cd col-xl-12">
+                        <div class="row g-4">
+                            <div class="col-lg-5">
+                                <div class="">
+                                    <a href="#">
+                                        {% if movie.poster %}
+                                        <img src="{{movie.poster.url}}" class="img-fluid rounded" alt="Image">
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <h4 class="fw-bold mb-3">{{movie.name}}</h4>
+                                <p class="mb-3">Category: {{movie.category}}</p>
+                                <h5 class="fw-bold mb-3">Relasing Date:{{movie.release_date}}</h5>
+
+                                <p class="mb-4">{{movie.description}}</p>
+
+                                <p  class=" mb-4 text-primary">Actors: {{movie.actors}}</p>
+                                   {% if user.is_authenticated %}
+                                {% if user.id == movie.user_id %}
+                                <a href="{% url 'movieapp:update' movie.id %}" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">Edit</a>
+                                <a href="{% url 'movieapp:delete' movie.id %}" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">Delete</a>
+                                {% endif %}
+                                   {% endif %}
+                            </div>
+                            <div class="col-lg-12">
+                                <nav>
+                                    <div class="nav nav-tabs mb-3">
+                                        <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
+                                            id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
+                                            aria-controls="nav-about" aria-selected="true">Trailer</button>
+                                        <button class="nav-link border-white border-bottom-0" type="button" role="tab"
+                                            id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
+                                                aria-controls="nav-mission" aria-selected="false">Reviews </button>
+                                    </div>
+                                </nav>
+                                <div class="tab-content mb-5">
+                                    <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+
+                                     <a href="{{movie.youtube_link}}" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary" target="_blank">Watch Video</a>     </p>
+
+                                    </div>
+
+                                    <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+                                         {% for x in reviews %}
+                                        <div class="d-flex">
+                                            <img src="{% static 'img/avatar.jpg' %}" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+                                            <div class="">
+
+                                                            <p>{{ x.review_desp }}</p>
+
+                                                                {% if x.rating > 0 %}
+                                                                  <i class="fa fa-star {% if x.rating  < 1 %} no-checked {% else %} checked {% endif %} " id="check-star"></i>
+                                                                  <i class="fa fa-star {% if x.rating  < 2 %} no-checked {% else %} checked {% endif %} " id="check-star"></i>
+                                                                  <i class="fa fa-star {% if x.rating  < 3 %} no-checked {% else %} checked {% endif %} " id="check-star"></i>
+                                                                  <i class="fa fa-star {% if x.rating  < 4 %} no-checked {% else %} checked {% endif %} " id="check-star"></i>
+                                                                  <i class="fa fa-star {% if x.rating  < 5 %} no-checked {% else %} checked {% endif %} " id="check-star"></i>
+                                                                <hr>
+                                                                {% else %}
+
+                                                                     <i class="fa fa-star " id="star"></i>
+                                                                     <i class="fa fa-star" id="star"></i>
+                                                                     <i class="fa fa-star" id="star"></i>
+                                                                     <i class="fa fa-star" id="star"></i>
+                                                                     <i class="fa fa-star" id="star"></i>
+                                                                            &nbsp;<span>No ratings</span>
+
+                                                                    <hr>
+
+                                                                 {% endif %}
+
+
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <form action="#" method="Post">
+                                 {% csrf_token %}
+                                <h4 class="mb-5 fw-bold">Leave a Reply</h4>
+                                <div class="row g-4">
+
+                                    <div class="col-lg-12">
+                                        <div class="border-bottom rounded my-4">
+                                            <textarea name="item_review" id="review-text" class="form-control border-0" cols="30" rows="8" placeholder="Your Review *" spellcheck="false"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="d-flex justify-content-between py-3 mb-5">
+                                            <div class="d-flex align-items-center">
+
+                                                <div class="rating">
+
+                                                  <input type="radio" id="star5" name="rating" value="5" />
+                                                  <label class="star" for="star5" title="Awesome" aria-hidden="true"></label>
+                                                  <input type="radio" id="star4" name="rating" value="4" />
+                                                  <label class="star" for="star4" title="Great" aria-hidden="true"></label>
+                                                  <input type="radio" id="star3" name="rating" value="3" />
+                                                  <label class="star" for="star3" title="Very good" aria-hidden="true"></label>
+                                                  <input type="radio" id="star2" name="rating" value="2" />
+                                                  <label class="star" for="star2" title="Good" aria-hidden="true"></label>
+                                                  <input type="radio" id="star1" name="rating" value="1" />
+                                                  <label class="star" for="star1" title="Bad" aria-hidden="true"></label>
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-md-4">
+                                                    <input type="submit"  class="btn btn-primary mt-2" value="Post Comment">
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
